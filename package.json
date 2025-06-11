@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "build": "chmod +x node_modules/.bin/tsc && tsc",
+    "start": "node dist/api/webhook/kiwify.js"
+  },
   "name": "kiwify-webhook",
   "version": "1.0.0",
   "description": "Webhook para integração Kiwify com Firebase",
