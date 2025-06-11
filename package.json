@@ -17,12 +17,10 @@
   "license": "ISC",
   "dependencies": {
     "@vercel/node": "^3.0.1",
-    "firebase-admin": "^12.1.0",
-    "lodash": "^4.17.21"
+    "firebase-admin": "^12.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",
-    "@types/lodash": "^4.17.0",
     "typescript": "^5.4.5"
   }
 }

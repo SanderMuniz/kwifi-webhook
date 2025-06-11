@@ -1,6 +1,4 @@
 // utils/payloadProcessor.ts
-import { isObject } from 'lodash'; // Adicionar 'lodash' como dependência no package.json
-
 export interface KiwifyCustomer {
   full_name: string;
   first_name: string;
@@ -120,9 +118,6 @@ export function processKiwifyPayload(payload: any): KiwifyOrder {
       charges: payload.Subscription.charges, // Pode precisar de um tratamento mais profundo se for usar
     } : null,
     subscription_id: payload.subscription_id,
-    // Se precisar de Commissions ou TrackingParameters, inclua-os aqui
-    // Commissions: isObject(payload.Commissions) ? { ...payload.Commissions } : null,
-    // TrackingParameters: isObject(payload.TrackingParameters) ? { ...payload.TrackingParameters } : null,
   };
 
   return processed;
