@@ -3,5 +3,10 @@
     "api/**/*.ts": {
       "runtime": "@vercel/node@3.0.1"
     }
+  },
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
   }
 }
