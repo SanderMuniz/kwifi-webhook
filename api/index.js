@@ -1,3 +1,12 @@
+// api/index.js (ARQUIVO DE TESTE TEMPORÁRIO)
+module.exports = (req, res) => {
+  console.log('Requisição recebida na função de teste temporária!');
+  const url = req.url;
+  const method = req.method;
+  res.status(200).send(`Função de Teste Temporária OK!\nURL: ${url}\nMétodo: ${method}`);
+};
+
+/*
 // api/index.js
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -27,13 +36,12 @@ app.post('/webhook/kiwify', async (req, res) => {
 
 //  const success = await firebaseService.savePayload(firebasePath, dataToSave);
 
-/*
   if (success) {
     res.status(200).send('Payload recebido e salvo com sucesso no Firebase!');
   } else {
     res.status(500).send('Erro ao processar e salvar o payload.');
   }
-  */
+  
 });
 
 // Endpoint para verificar se o webhook está funcionando (opcional)
@@ -43,3 +51,5 @@ app.get('/webhook/kiwify', (req, res) => {
 
 // Exporta o aplicativo Express para ser usado pelo Vercel
 module.exports = app;
+
+*/
