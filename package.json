@@ -15,12 +15,12 @@
   ],
   "author": "Sander Muniz",
   "license": "ISC",
-  "dependencies": {
-    "@vercel/node": "^3.0.1",
-    "firebase-admin": "^12.1.0"
-  },
   "devDependencies": {
-    "@types/node": "^20.12.12",
-    "typescript": "^5.4.5"
+    "@types/node": "^20.12.12"
+  },
+  "dependencies": {
+    "@vercel/node": "^5.2.2",
+    "firebase-admin": "^13.4.0",
+    "typescript": "^5.8.3"
   }
 }
