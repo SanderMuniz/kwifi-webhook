@@ -1,14 +1,10 @@
 {
-  "scripts": {
-    "build": "chmod +x node_modules/.bin/tsc && tsc",
-    "start": "node dist/api/webhook/kiwify.js"
-  },
   "name": "kiwify-webhook",
   "version": "1.0.0",
   "description": "Webhook para integração Kiwify com Firebase",
   "main": "dist/api/webhook/kiwify.js",
   "scripts": {
-    "build": "tsc",
+    "build": "chmod +x node_modules/.bin/tsc && tsc",
     "start": "node dist/api/webhook/kiwify.js"
   },
   "keywords": [
@@ -25,6 +21,6 @@
   "dependencies": {
     "@vercel/node": "^5.2.2",
     "firebase-admin": "^13.4.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3" 
   }
 }
