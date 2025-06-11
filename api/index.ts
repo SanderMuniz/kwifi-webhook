@@ -1,7 +1,7 @@
 // api/index.ts (VERSÃO DE TESTE INICIAL - Express)
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import * as bodyParser from 'body-parser';
-import * as express from 'express';
+import express from 'express';
 
 const app = express();
 app.use(bodyParser.json());
