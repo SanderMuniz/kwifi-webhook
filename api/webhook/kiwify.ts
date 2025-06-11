@@ -21,8 +21,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         const sanitizedEmail = sanitizeEmailForFirebase(customerEmail);
-        const userRefPath = `users/${sanitizedEmail}`; // Caminho para os dados do usuário no Firebase
-        const ordersRefPath = `orders/${orderId}`; // Caminho para o pedido bruto (opcional)
+        const userRefPath = `kiwify/users/${sanitizedEmail}`; // Caminho para os dados do usuário no Firebase
+        const ordersRefPath = `kiwify/orders/${orderId}`; // Caminho para o pedido bruto (opcional)
 
         const processedPayload = processKiwifyPayload(payload);
 
