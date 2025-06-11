@@ -1,46 +1,74 @@
 // services/firebaseService.ts
 import * as admin from 'firebase-admin';
-import firebaseConfig from '../config/firebase';
 
-let firebaseInitialized = false;
+// Definir uma interface para as configurações do Firebase para tipagem segura
+interface FirebaseConfig {
+  projectId: string;
+  clientEmail: string;
+  privateKey: string;
+  databaseURL: string; // Adicionado para o Realtime Database
+}
 
-const firebaseService = {
-  initializeFirebase: (): void => {
-    if (!firebaseInitialized) {
+class FirebaseService {
+  private app: admin.app.App | null = null;
+
+  public initializeFirebase(): void {
+    if (!admin.apps.length) {
       try {
-        admin.initializeApp({
-          credential: admin.credential.cert(firebaseConfig as admin.ServiceAccount),
-          databaseURL: `https://${firebaseConfig.project_id}.firebaseio.com`
-        });
-        firebaseInitialized = true;
-        console.log('Firebase Admin SDK inicializado com sucesso.');
-      } catch (error: any) {
-        if (error.code === 'app/duplicate-app') {
-          console.warn('Firebase Admin SDK já inicializado.');
-          firebaseInitialized = true;
-        } else {
-          console.error('Erro ao inicializar o Firebase Admin SDK:', error.message);
-        }
-      }
-    }
-  },
+        const config: FirebaseConfig = {
+          projectId: process.env.FIREBASE_PROJECT_ID as string,
+          clientEmail: process.env.FIREBASE_CLIENT_EMAIL as string,
+          privateKey: (process.env.FIREBASE_PRIVATE_KEY as string).replace(/\\n/g, '\n'), // Substitui \\n por \n
+          databaseURL: process.env.FIREBASE_DATABASE_URL as string, // Nova variável de ambiente
+        };
 
-  savePayload: async (path: string, data: any): Promise<boolean> => {
-    if (!firebaseInitialized) {
-      console.error('Firebase não está inicializado. Não foi possível salvar o payload.');
+        if (!config.projectId || !config.clientEmail || !config.privateKey || !config.databaseURL) {
+          throw new Error('Missing Firebase environment variables.');
+        }
+
+        this.app = admin.initializeApp({
+          credential: admin.credential.cert({
+            projectId: config.projectId,
+            clientEmail: config.clientEmail,
+            privateKey: config.privateKey,
+          }),
+          databaseURL: config.databaseURL,
+        });
+
+        console.log('Firebase Admin SDK initialized successfully.');
+      } catch (error) {
+        console.error('Failed to initialize Firebase Admin SDK:', error);
+        this.app = null; // Garante que o app seja nulo em caso de falha
+      }
+    } else {
+      this.app = admin.app(); // Se já inicializado, obtém a instância existente
+    }
+  }
+
+  // Novo método para obter o banco de dados (Realtime Database)
+  public getDatabase(): admin.database.Database {
+    if (!this.app) {
+      throw new Error('Firebase app not initialized. Call initializeFirebase() first.');
+    }
+    return this.app.database();
+  }
+
+  public async savePayload(path: string, data: any): Promise<boolean> {
+    if (!this.app) {
+      console.error('Firebase app not initialized. Cannot save payload.');
       return false;
     }
     try {
-      const db = admin.database();
-      const ref = db.ref(path);
-      await ref.push(data);
-      console.log(`Payload salvo com sucesso em: ${path}`);
+      // Usando o Realtime Database
+      await this.getDatabase().ref(path).set(data);
+      console.log(`Payload saved to Firebase at path: ${path}`);
       return true;
     } catch (error) {
-      console.error('Erro ao salvar o payload no Firebase:', error);
+      console.error('Error saving payload to Firebase:', error);
       return false;
     }
   }
-};
+}
 
+const firebaseService = new FirebaseService();
 export default firebaseService;
