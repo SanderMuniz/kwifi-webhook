@@ -1,7 +1,21 @@
-// config/firebase.js
-require('dotenv').config();
+// config/firebase.ts
+require('dotenv').config(); // Carrega as variáveis de ambiente
 
-const firebaseConfig = {
+interface FirebaseConfig {
+  type?: string;
+  project_id?: string;
+  private_key_id?: string;
+  private_key?: string;
+  client_email?: string;
+  client_id?: string;
+  auth_uri?: string;
+  token_uri?: string;
+  auth_provider_x509_cert_url?: string;
+  client_x509_cert_url?: string;
+  universe_domain?: string;
+}
+
+const firebaseConfig: FirebaseConfig = {
   type: process.env.FIREBASE_TYPE,
   project_id: process.env.FIREBASE_PROJECT_ID,
   private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
@@ -15,4 +29,4 @@ const firebaseConfig = {
   universe_domain: process.env.FIREBASE_UNIVERSE_DOMAIN
 };
 
-module.exports = firebaseConfig;
+export default firebaseConfig;
