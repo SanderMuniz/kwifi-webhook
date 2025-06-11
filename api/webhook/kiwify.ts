@@ -19,8 +19,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         // --- Lógica do Firebase reativada ---
         const dataToSave = processKiwifyPayload(payload);
-        const firebasePath = `kiwify_webhooks/<span class="math-inline">\{payload\.webhook\_event\_type \|\| 'unclassified'\}/</span>{payload.order_id}`; // Exemplo de caminho mais específico
-
+       //const firebasePath = `kiwify_webhooks/<span class="math-inline">\{payload\.webhook\_event\_type \|\| 'unclassified'\}/</span>{payload.order_id}`; // Exemplo de caminho mais específico
+		const firebasePath = `kiwify_webhooks/${payload.webhook_event_type || 'unclassified'}/${payload.order_id}`;
+		console.log('Caminho do Firebase sendo construído:', firebasePath); // Adicione esta linha
         const success = await firebaseService.savePayload(firebasePath, dataToSave);
 
         if (success) {
